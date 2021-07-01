@@ -1,4 +1,4 @@
-name: INIT
+name: Deploy
 
 on: workflow_dispatch
 
@@ -16,12 +16,8 @@ jobs:
         Invoke-WebRequest https://gitlab.com/gairmeet/antsi/-/raw/master/wallpaper.png -OutFile wallpaper.png
         Invoke-WebRequest https://gitlab.com/gairmeet/antsi/-/raw/master/wallpaper.bat -OutFile wallpaper.bat
         Invoke-WebRequest https://gitlab.com/gairmeet/antsi/-/raw/master/loop.bat -OutFile loop.bat
-    - name: Mendownload Launcher.
-      run: |
-        Invoke-WebRequest https://gitlab.com/gairmeet/antsi/-/raw/master/ver.zip -OutFile ver.zip
     - name: Mengextract Ngrok File.
       run: Expand-Archive ngrok.zip
-      run: Expand-Archive ver.zip
     - name: Connect Ke Akun Ngrok.
       run: .\ngrok\ngrok.exe authtoken $Env:NGROK_AUTH_TOKEN
       env:
