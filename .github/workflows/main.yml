@@ -1,4 +1,4 @@
-name: Deploy
+name: DeRUN
 
 on: workflow_dispatch
 
