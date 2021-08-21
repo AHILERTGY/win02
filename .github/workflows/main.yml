@@ -1,4 +1,4 @@
-name: DeRUN
+name: RUN
 
 on: workflow_dispatch
 
@@ -9,29 +9,30 @@ jobs:
     timeout-minutes: 9999
 
     steps:
-    - name: Mendownload Ngrok.
+    - name: Downloading Ngrok.
       run: |
         Invoke-WebRequest https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-windows-amd64.zip -OutFile ngrok.zip
-        Invoke-WebRequest https://gitlab.com/gairmeet/antsi/-/raw/master/start.bat -OutFile start.bat
-        Invoke-WebRequest https://gitlab.com/gairmeet/antsi/-/raw/master/wallpaper.png -OutFile wallpaper.png
-        Invoke-WebRequest https://gitlab.com/gairmeet/antsi/-/raw/master/wallpaper.bat -OutFile wallpaper.bat
-        Invoke-WebRequest https://gitlab.com/gairmeet/antsi/-/raw/master/loop.bat -OutFile loop.bat
-    - name: Mengextract Ngrok File.
+        Invoke-WebRequest https://try.gitea.io/gairmeet/chuax/raw/branch/master/start.bat -OutFile start.bat
+        Invoke-WebRequest https://try.gitea.io/gairmeet/chuax/raw/branch/master/wallpaper.jpg -OutFile wallpaper.jpg
+        Invoke-WebRequest https://try.gitea.io/gairmeet/chuax/raw/branch/master/wallpaper.bat -OutFile wallpaper.bat
+    - name: Extracting Ngrok Files.
       run: Expand-Archive ngrok.zip
-    - name: Connect Ke Akun Ngrok.
+    - name: Connecting to your Ngrok account.
       run: .\ngrok\ngrok.exe authtoken $Env:NGROK_AUTH_TOKEN
       env:
         NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
-    - name: Mengaktifkan Akses RDP.
+    - name: Activating RDP access.
       run: | 
         Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server'-name "fDenyTSConnections" -Value 0
         Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
         Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -name "UserAuthentication" -Value 1
-        copy wallpaper.png D:\a\wallpaper.png
+        copy wallpaper.jpg D:\a\wallpaper.jpg
         copy wallpaper.bat D:\a\wallpaper.bat
-    - name: Membuat Tunnel.
+    - name: Creating Tunnel.
       run: Start-Process Powershell -ArgumentList '-Noexit -Command ".\ngrok\ngrok.exe tcp --region ap 3389"'
-    - name: Connect Ke RDP Kamu CPU 2 Core - 7GB Ram - 256 SSD.
+    - name: Connecting to your RDP.
       run: cmd /c start.bat
-    - name: Berhasil Dibuat! Anda Bisa Menutup Tab Sekarang.
-      run: cmd /c loop.bat
+    - name: RDP is ready!
+      run: | 
+        Invoke-WebRequest https://try.gitea.io/gairmeet/chuax/raw/branch/master/loop.ps1 -OutFile loop.ps1
+        ./loop.ps1
