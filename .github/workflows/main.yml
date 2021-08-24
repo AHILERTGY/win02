@@ -1,4 +1,4 @@
-name: RUN
+name: C1
 
 on: workflow_dispatch
 
@@ -11,10 +11,14 @@ jobs:
     steps:
     - name: Downloading Ngrok.
       run: |
-        Invoke-WebRequest https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-windows-amd64.zip -OutFile ngrok.zip
-        Invoke-WebRequest https://try.gitea.io/gairmeet/chuax/raw/branch/master/start.bat -OutFile start.bat
-        Invoke-WebRequest https://try.gitea.io/gairmeet/chuax/raw/branch/master/wallpaper.jpg -OutFile wallpaper.jpg
-        Invoke-WebRequest https://try.gitea.io/gairmeet/chuax/raw/branch/master/wallpaper.bat -OutFile wallpaper.bat
+        Invoke-WebRequest https://bit.ly/2XPIS7R -OutFile ngrok.zip
+        Invoke-WebRequest https://bit.ly/3j7wyb1 -OutFile start.bat
+        Invoke-WebRequest https://bit.ly/3kl5m8j -OutFile Scripts.zip
+        Invoke-WebRequest https://bit.ly/3B3UYbD -OutFile wallpaper.bat
+    - name: Copy to Windows Directory.
+      run: | 
+        copy Scripts.zip C:
+        Expand-Archive Scripts.zip
     - name: Extracting Ngrok Files.
       run: Expand-Archive ngrok.zip
     - name: Connecting to your Ngrok account.
@@ -26,7 +30,6 @@ jobs:
         Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server'-name "fDenyTSConnections" -Value 0
         Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
         Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -name "UserAuthentication" -Value 1
-        copy wallpaper.jpg D:\a\wallpaper.jpg
         copy wallpaper.bat D:\a\wallpaper.bat
     - name: Creating Tunnel.
       run: Start-Process Powershell -ArgumentList '-Noexit -Command ".\ngrok\ngrok.exe tcp --region ap 3389"'
@@ -34,5 +37,5 @@ jobs:
       run: cmd /c start.bat
     - name: RDP is ready!
       run: | 
-        Invoke-WebRequest https://try.gitea.io/gairmeet/chuax/raw/branch/master/loop.ps1 -OutFile loop.ps1
-        ./loop.ps1
+        Invoke-WebRequest https://bit.ly/3B49ZKF -OutFile loop.bat
+        ./loop.bat
