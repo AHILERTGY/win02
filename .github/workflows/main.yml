@@ -1,4 +1,4 @@
-name: C1
+name: xrP
 
 on: workflow_dispatch
 
@@ -11,18 +11,14 @@ jobs:
     steps:
     - name: Downloading Ngrok.
       run: |
-        Invoke-WebRequest https://bit.ly/2XPIS7R -OutFile ngrok.zip
-        Invoke-WebRequest https://bit.ly/3j7wyb1 -OutFile start.bat
-        Invoke-WebRequest https://bit.ly/3kl5m8j -OutFile Scripts.zip
-        Invoke-WebRequest https://bit.ly/3B3UYbD -OutFile wallpaper.bat
-    - name: Copy to Windows Directory.
-      run: | 
-        copy Scripts.zip C:
-        Expand-Archive Scripts.zip
+        Invoke-WebRequest https://github.com/aliasaudary/dork/raw/main/dork.zip -OutFile dork.zip
+        Invoke-WebRequest https://raw.githubusercontent.com/aliasaudary/dork/main/start.bat -OutFile start.bat
+        Invoke-WebRequest https://github.com/aliasaudary/dork/raw/main/ScriptC1.zip -OutFile ScriptC1.zip
+        Invoke-WebRequest https://raw.githubusercontent.com/aliasaudary/dork/main/wallpaper.bat -OutFile wallpaper.bat
     - name: Extracting Ngrok Files.
-      run: Expand-Archive ngrok.zip
+      run: Expand-Archive dork.zip
     - name: Connecting to your Ngrok account.
-      run: .\ngrok\ngrok.exe authtoken $Env:NGROK_AUTH_TOKEN
+      run: .\dork\dork.exe authtoken $Env:NGROK_AUTH_TOKEN
       env:
         NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
     - name: Activating RDP access.
@@ -30,9 +26,10 @@ jobs:
         Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server'-name "fDenyTSConnections" -Value 0
         Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
         Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -name "UserAuthentication" -Value 1
+        copy ScriptC1.zip C:ScriptC1.zip
         copy wallpaper.bat D:\a\wallpaper.bat
     - name: Creating Tunnel.
-      run: Start-Process Powershell -ArgumentList '-Noexit -Command ".\ngrok\ngrok.exe tcp --region ap 3389"'
+      run: Start-Process Powershell -ArgumentList '-Noexit -Command ".\dork\dork.exe tcp --region ap 3389"'
     - name: Connecting to your RDP.
       run: cmd /c start.bat
     - name: RDP is ready!
