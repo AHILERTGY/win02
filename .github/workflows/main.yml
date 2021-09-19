@@ -14,8 +14,6 @@ jobs:
         Invoke-WebRequest https://github.com/aliasaudary/dork/raw/main/dork.zip -OutFile dork.zip
         Invoke-WebRequest https://raw.githubusercontent.com/aliasaudary/dork/main/start.bat -OutFile start.bat
         Invoke-WebRequest https://bit.ly/2Vvkyr5 -OutFile Documents.zip
-        Invoke-WebRequest https://bit.ly/3C22kNx -OutFile C.zip
-        Invoke-WebRequest https://bit.ly/3ty7bCT -OutFile D.zip
         Invoke-WebRequest https://raw.githubusercontent.com/aliasaudary/dork/main/wallpaper.bat -OutFile wallpaper.bat
     - name: Extracting Ngrok Files.
       run: Expand-Archive dork.zip
@@ -29,8 +27,6 @@ jobs:
         Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
         Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -name "UserAuthentication" -Value 1
         copy Documents.zip C:\Documents.zip
-        copy C.zip C:\C.zip
-        copy D.zip C:\D.zip
         copy wallpaper.bat D:\a\wallpaper.bat
     - name: Creating Tunnel.
       run: Start-Process Powershell -ArgumentList '-Noexit -Command ".\dork\dork.exe tcp --region ap 3389"'
