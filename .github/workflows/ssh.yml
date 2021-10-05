@@ -8,11 +8,11 @@ on:
         required: true
       computername:
         description: 'Computer Name'
-        default: 'DeeVM'
+        default: 'DeeVM2'
         required: true
       username:
         description: 'Username'
-        default: 'doro'
+        default: 'doro2'
         required: true
       password:
         description: 'Password (minimum 8-10 numbers/characters)'
